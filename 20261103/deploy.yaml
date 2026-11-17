@@ -1,0 +1,22 @@
+apiVersion: apps/v1                 # 쿠버네티스 API 버전
+kind: Deployment                    # 리소스의 종류
+metadata:                           # 리소스의 메타데이터
+  name: k8s-deployment              # 리소스의 이름
+  namespace: k8s-namespace          # 리소스가 배포될 Namespace
+  labels:                           # ReplicaSet 자체의 레이블 정보
+    app: nginx                      # 리소스를 식별하고 Pod와 연결하는 데 사용되는 키-값 쌍
+spec:                               # Deployment가 관리할 Pod들의 템플릿
+  replicas: 3                       # 실행할 Pod의 개수
+  selector:                         # Deployment가 어떤 Pod를 관리해야 하는지 레이블 지정
+    matchLabels:                    # 배포할 Pod의 레이블
+      app: nginx                    # 연결할 Pod의 레이블 키-값 쌍
+  template:                         # Deployment가 생성할 Pod에 대한 템플릿
+    metadata:                       # Pod에 적용할 템플릿
+      labels:                       # Pod 레이블 지정
+        app: nginx                  # Pod의 레이블 키-값 쌍
+    spec:                           # Pod의 실제 동작 방식과 구성 설정
+      containers:                   # Pod 안에 포함될 컨테이너의 상세 설정
+      - name: k8s-container         # 컨테이너 이름
+        image: nginx:latest         # 컨테이너 이미지
+        ports:                      # 컨테이너 포트 상세 설정
+        - containerPort: 80         # 컨테이너의 포트 번호
